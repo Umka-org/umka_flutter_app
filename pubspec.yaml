@@ -9,6 +9,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  flutter_bloc:
   umka_proto:
     git: git@github.com:Umka-org/umka_proto.git
 

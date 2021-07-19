@@ -34,12 +34,15 @@ class QuestionAnswerView extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Enter the Answer',
       ),
+      validator: (value) => null,
     );
   }
 
   Widget _submitButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        print('hi');
+      },
       child: Text('Submit'),
     );
   }
