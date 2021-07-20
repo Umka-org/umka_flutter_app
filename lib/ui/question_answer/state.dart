@@ -8,6 +8,9 @@ class QaState {
   final SubmissionStatus submissionStatus;
   final Evaluation? evaluation;
 
+  bool get isValidAnswer => enteredAnswer.isNotEmpty;
+  bool get isValidName => enteredAnswer.length > 3;
+
   QaState({
     this.student,
     this.question,
