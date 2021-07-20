@@ -12,6 +12,10 @@ class UmkaService {
     final question = await stub.getQuestion(student);
     return question;
   }
+
+  Future<Evaluation> sendAnswer(Answer answer) async {
+    return await stub.sendAnswer(answer);
+  }
 }
 
 ClientChannel _createChannel(String host) => ClientChannel(

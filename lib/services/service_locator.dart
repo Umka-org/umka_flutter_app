@@ -7,4 +7,4 @@ Future initServiceLocator() async {
   serviceLocator.resetLazySingleton<UmkaService>();
 }
 
-get umkaService => serviceLocator<UmkaService>();
+UmkaService get umkaService => serviceLocator<UmkaService>();

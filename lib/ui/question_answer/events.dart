@@ -14,7 +14,11 @@ class AnswerChanged extends QaEvent {
   AnswerChanged(this.answer);
 }
 
-class AnswerSubmitted extends QaEvent {}
+class AnswerSubmitted extends QaEvent {
+  final Answer answer;
+
+  AnswerSubmitted(this.answer);
+}
 
 class GotEvaluation extends QaEvent {
   final Evaluation evaluation;
