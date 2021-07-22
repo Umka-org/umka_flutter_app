@@ -3,8 +3,8 @@ import 'package:umka_flutter/services/umka_service.dart';
 
 final serviceLocator = GetIt.instance;
 
-Future initServiceLocator() async {
-  serviceLocator.resetLazySingleton<UmkaService>();
+void initServiceLocator() {
+  serviceLocator.registerLazySingleton(() => UmkaService());
 }
 
 UmkaService get umkaService => serviceLocator<UmkaService>();

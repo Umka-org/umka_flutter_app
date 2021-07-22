@@ -2,7 +2,7 @@ import 'package:umka_flutter/ui/core/submission_status.dart';
 import 'package:umka_proto/generated/umka.pb.dart';
 
 class QaState {
-  final Student? student;
+  final String enteredName;
   final Question? question;
   final String enteredAnswer;
   final SubmissionStatus submissionStatus;
@@ -12,15 +12,15 @@ class QaState {
   bool get isValidName => enteredAnswer.length > 3;
 
   QaState({
-    this.student,
     this.question,
+    this.enteredName = '',
     this.enteredAnswer = '',
     this.submissionStatus = const InitialSubmissionStatus(),
     this.evaluation,
   });
 
   QaState copyWith({
-    Student? student,
+    String? enteredName,
     Question? question,
     bool? isLoading,
     String? enteredAnswer,
@@ -28,7 +28,7 @@ class QaState {
     Evaluation? evaluation,
   }) =>
       QaState(
-        student: student ?? this.student,
+        enteredName: enteredName ?? this.enteredName,
         question: question ?? this.question,
         enteredAnswer: enteredAnswer ?? this.enteredAnswer,
         submissionStatus: submissionStatus ?? this.submissionStatus,

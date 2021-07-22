@@ -8,7 +8,7 @@ class UmkaService {
     stub = UmkaClient(_createChannel('127.0.0.1'));
   }
 
-  Future<Question?> getRandomQuestion(Student student) async {
+  Future<Question> getRandomQuestion(Student student) async {
     final question = await stub.getQuestion(student);
     return question;
   }
