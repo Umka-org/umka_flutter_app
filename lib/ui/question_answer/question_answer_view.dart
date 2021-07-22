@@ -27,35 +27,39 @@ class QuestionAnswerView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          _nameField(context, state),
+          const SizedBox(height: 50),
           _getRandomQuestionButton(context, state),
           const SizedBox(height: 50),
-          _questionWidget('hello'),
-          const SizedBox(height: 50),
-          _nameField(context, state),
+          _questionWidget(state.question?.text ?? ''),
           const SizedBox(height: 50),
           _answerField(context, state),
           const SizedBox(height: 50),
-          _submitButton(context, state),
+          state.submissionStatus is Submitting
+              ? CircularProgressIndicator()
+              : _submitButton(context, state),
         ],
       ),
     );
   }
 
   Widget _getRandomQuestionButton(BuildContext context, QaState state) {
-    return TextButton(
-      onPressed: () {
-        context.read<QaBloc>().add(GetRandomQuestion());
-      },
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.refresh),
-          ),
-          Text('Get random question'),
-        ],
-      ),
-    );
+    return state.isNameValid
+        ? TextButton(
+            onPressed: () {
+              context.read<QaBloc>().add(GetRandomQuestion());
+            },
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.refresh),
+                ),
+                Text('Get random question'),
+              ],
+            ),
+          )
+        : SizedBox.shrink();
   }
 
   Widget _questionWidget(String question) => Text(question);
@@ -66,31 +70,34 @@ class QuestionAnswerView extends StatelessWidget {
         hintText: 'Enter your name',
       ),
       onChanged: (value) => context.read<QaBloc>().add(NameChanged(value)),
-      validator: (value) => state.isValidName ? null : 'Name is too short',
+      validator: (value) => state.isNameValid ? null : 'Name is too short',
     );
   }
 
   Widget _answerField(BuildContext context, QaState state) {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: 'Enter the Answer',
-      ),
-      onChanged: (value) => context.read<QaBloc>().add(AnswerChanged(value)),
-      validator: (value) =>
-          state.isValidAnswer ? null : 'Incorrect answer format',
-    );
+    return state.isReadyToAnswer
+        ? TextFormField(
+            decoration: InputDecoration(
+              hintText: 'Enter the Answer',
+            ),
+            onChanged: (value) =>
+                context.read<QaBloc>().add(AnswerChanged(value)),
+            validator: (value) =>
+                state.isAnswerValid ? null : 'Incorrect answer format',
+          )
+        : SizedBox.shrink();
   }
 
   Widget _submitButton(BuildContext context, QaState state) {
-    return state.submissionStatus is Submitting
-        ? CircularProgressIndicator()
-        : ElevatedButton(
+    return state.isReadyToSubmitAnswer
+        ? ElevatedButton(
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 context.read<QaBloc>().add(AnswerSubmitted());
               }
             },
             child: Text('Submit'),
-          );
+          )
+        : SizedBox.shrink();
   }
 }

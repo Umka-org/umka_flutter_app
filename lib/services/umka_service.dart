@@ -1,6 +1,12 @@
 import 'package:grpc/grpc.dart';
 import 'package:umka_proto/generated/umka.pbgrpc.dart';
 
+ClientChannel _createChannel(String host) => ClientChannel(
+      host,
+      port: 5555,
+      options: ChannelOptions(credentials: ChannelCredentials.insecure()),
+    );
+
 class UmkaService {
   late final UmkaClient stub;
 
@@ -17,9 +23,3 @@ class UmkaService {
     return await stub.sendAnswer(answer);
   }
 }
-
-ClientChannel _createChannel(String host) => ClientChannel(
-      host,
-      port: 5555,
-      options: ChannelOptions(credentials: ChannelCredentials.insecure()),
-    );
