@@ -11,10 +11,14 @@ class QaState extends Equatable {
   final SubmissionStatus submissionStatus;
   final Evaluation? evaluation;
 
-  bool get isNameValid => enteredName.length > 3;
+  bool get isNameValid => enteredName.length > 1;
   bool get isReadyToAnswer => isNameValid && question != null;
   bool get isAnswerValid => enteredAnswer.isNotEmpty;
-  bool get isReadyToSubmitAnswer => isReadyToAnswer && isAnswerValid;
+  bool get showGetQuestionButton =>
+      isNameValid && submissionStatus != SubmissionStatus.submitting;
+  bool get showSubmitButton =>
+      isReadyToAnswer && isAnswerValid && evaluation == null;
+  bool get isAnswerCorrect => (evaluation?.mark == 5);
 
   QaState({
     this.question,

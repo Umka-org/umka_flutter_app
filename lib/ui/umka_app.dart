@@ -7,6 +7,9 @@ class UmkaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
       home: RepositoryProvider(
         create: (context) => UmkaService(),
         child: HomeScreen(),

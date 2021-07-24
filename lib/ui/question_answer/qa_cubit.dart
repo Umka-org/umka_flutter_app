@@ -6,9 +6,11 @@ import 'package:umka_proto/generated/umka.pb.dart';
 
 class QaCubit extends Cubit<QaState> {
   final UmkaService umkaService;
+
   QaCubit(this.umkaService) : super(QaState());
 
   void nameChanged(String name) => emit(state.copyWith(enteredName: name));
+
   void answerChanged(String answer) =>
       emit(state.copyWith(enteredAnswer: answer));
 
