@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/ui/core/submission_status.dart';
-import 'package:umka_flutter/ui/question_answer/events.dart';
 import 'package:umka_flutter/ui/question_answer/state.dart';
 
 import 'bloc.dart';
@@ -11,11 +10,14 @@ class QuestionAnswerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<QaBloc, QaState>(
-      builder: (context, state) => Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: _body(context, state),
+    return BlocProvider(
+      create: (context) => QaCubit(),
+      child: BlocBuilder<QaCubit, QaState>(
+        builder: (context, state) => Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: _body(context, state),
+          ),
         ),
       ),
     );
@@ -38,6 +40,8 @@ class QuestionAnswerView extends StatelessWidget {
           state.submissionStatus is Submitting
               ? CircularProgressIndicator()
               : _submitButton(context, state),
+          const SizedBox(height: 50),
+          _evaluationWidget(context, state)
         ],
       ),
     );
@@ -47,7 +51,7 @@ class QuestionAnswerView extends StatelessWidget {
     return state.isNameValid
         ? TextButton(
             onPressed: () {
-              context.read<QaBloc>().add(GetRandomQuestion());
+              context.read<QaCubit>().getRandomQuestion();
             },
             child: Row(
               children: [
@@ -69,7 +73,7 @@ class QuestionAnswerView extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Enter your name',
       ),
-      onChanged: (value) => context.read<QaBloc>().add(NameChanged(value)),
+      onChanged: (value) => context.read<QaCubit>().nameChanged(value),
       validator: (value) => state.isNameValid ? null : 'Name is too short',
     );
   }
@@ -77,11 +81,11 @@ class QuestionAnswerView extends StatelessWidget {
   Widget _answerField(BuildContext context, QaState state) {
     return state.isReadyToAnswer
         ? TextFormField(
+            initialValue: state.enteredAnswer,
             decoration: InputDecoration(
               hintText: 'Enter the Answer',
             ),
-            onChanged: (value) =>
-                context.read<QaBloc>().add(AnswerChanged(value)),
+            onChanged: (value) => context.read<QaCubit>().answerChanged(value),
             validator: (value) =>
                 state.isAnswerValid ? null : 'Incorrect answer format',
           )
@@ -93,11 +97,17 @@ class QuestionAnswerView extends StatelessWidget {
         ? ElevatedButton(
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-                context.read<QaBloc>().add(AnswerSubmitted());
+                context.read<QaCubit>().answerSubmitted(state.enteredAnswer);
               }
             },
             child: Text('Submit'),
           )
         : SizedBox.shrink();
+  }
+
+  Widget _evaluationWidget(BuildContext context, QaState state) {
+    return state.evaluation == null
+        ? SizedBox.shrink()
+        : Text(state.evaluation!.mark == 5 ? 'Correct' : 'Incorrect');
   }
 }
