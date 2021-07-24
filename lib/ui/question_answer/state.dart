@@ -12,30 +12,26 @@ class QaState extends Equatable {
   final Evaluation? evaluation;
 
   bool get isNameValid => enteredName.length > 3;
-
   bool get isReadyToAnswer => isNameValid && question != null;
-
   bool get isAnswerValid => enteredAnswer.isNotEmpty;
-
   bool get isReadyToSubmitAnswer => isReadyToAnswer && isAnswerValid;
 
   QaState({
     this.question,
     this.enteredName = '',
     this.enteredAnswer = '',
-    this.submissionStatus = const InitialSubmissionStatus(),
+    this.submissionStatus = SubmissionStatus.initial,
     this.evaluation,
   });
 
   QaState reset() => QaState(
-        submissionStatus: Submitting(),
+        submissionStatus: SubmissionStatus.submitting,
         enteredName: this.enteredName,
       );
 
   QaState copyWith({
     String? enteredName,
     Question? question,
-    bool? isLoading,
     String? enteredAnswer,
     SubmissionStatus? submissionStatus,
     Evaluation? evaluation,

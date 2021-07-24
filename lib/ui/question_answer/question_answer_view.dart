@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:umka_flutter/services/umka_service.dart';
 import 'package:umka_flutter/ui/core/submission_status.dart';
+import 'package:umka_flutter/ui/question_answer/qa_cubit.dart';
 import 'package:umka_flutter/ui/question_answer/state.dart';
-
-import 'bloc.dart';
 
 class QuestionAnswerView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -11,7 +11,7 @@ class QuestionAnswerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => QaCubit(),
+      create: (context) => QaCubit(context.read<UmkaService>()),
       child: BlocBuilder<QaCubit, QaState>(
         builder: (context, state) => Scaffold(
           body: Padding(
@@ -37,7 +37,7 @@ class QuestionAnswerView extends StatelessWidget {
           const SizedBox(height: 50),
           _answerField(context, state),
           const SizedBox(height: 50),
-          state.submissionStatus is Submitting
+          state.submissionStatus.isSubmitting
               ? CircularProgressIndicator()
               : _submitButton(context, state),
           const SizedBox(height: 50),

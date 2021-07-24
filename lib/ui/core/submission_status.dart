@@ -1,17 +1,8 @@
-abstract class SubmissionStatus {
-  const SubmissionStatus();
-}
+enum SubmissionStatus { initial, submitting, success, failure }
 
-class InitialSubmissionStatus extends SubmissionStatus {
-  const InitialSubmissionStatus();
-}
-
-class Submitting extends SubmissionStatus {}
-
-class SubmissionSuccess extends SubmissionStatus {}
-
-class SubmissionFailure extends SubmissionStatus {
-  final Object exception;
-
-  SubmissionFailure(this.exception);
+extension SubmissionStatusX on SubmissionStatus {
+  bool get isInitial => this == SubmissionStatus.initial;
+  bool get isSubmitting => this == SubmissionStatus.submitting;
+  bool get isSuccess => this == SubmissionStatus.success;
+  bool get isFailure => this == SubmissionStatus.failure;
 }
