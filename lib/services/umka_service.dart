@@ -22,4 +22,7 @@ class UmkaService {
   Future<Evaluation> sendAnswer(Answer answer) async {
     return await stub.sendAnswer(answer);
   }
+
+  Stream<AnsweredQuestion> getTutorial(Student student) =>
+      stub.getTutorial(student);
 }

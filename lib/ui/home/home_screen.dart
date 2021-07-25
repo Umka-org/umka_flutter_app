@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:umka_flutter/ui/exam/exam_view.dart';
 import 'package:umka_flutter/ui/interview/interview_view.dart';
 import 'package:umka_flutter/ui/question_answer/question_answer_view.dart';
+import 'package:umka_flutter/ui/tutorial/tutorial_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,7 +11,6 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-/// This is the private State class that goes with HomeScreen.
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
@@ -31,12 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Questions',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'Exam',
+            icon: Icon(Icons.cast_for_education),
+            label: 'Tutorial',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.badge),
-            label: 'Interview',
+            icon: Icon(Icons.school),
+            label: 'Exam',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -49,9 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
 Widget _getCurrentView(int index) {
   switch (index) {
     case 1:
-      return ExamView();
+      return TutorialView();
     case 2:
-      return InterviewView();
+      return ExamView();
     default:
       return QuestionAnswerView();
   }

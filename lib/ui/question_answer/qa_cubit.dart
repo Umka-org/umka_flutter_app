@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
 import 'package:umka_flutter/ui/core/submission_status.dart';
-import 'package:umka_flutter/ui/question_answer/state.dart';
+import 'package:umka_flutter/ui/question_answer/qa_state.dart';
 import 'package:umka_proto/generated/umka.pb.dart';
 
 class QaCubit extends Cubit<QaState> {

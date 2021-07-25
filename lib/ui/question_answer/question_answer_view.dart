@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
 import 'package:umka_flutter/ui/core/submission_status.dart';
 import 'package:umka_flutter/ui/question_answer/qa_cubit.dart';
-import 'package:umka_flutter/ui/question_answer/state.dart';
+import 'package:umka_flutter/ui/question_answer/qa_state.dart';
 
 class QuestionAnswerView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -21,20 +21,6 @@ class QuestionAnswerView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _answerField(BuildContext context, QaState state) {
-    return state.isReadyToAnswer
-        ? TextFormField(
-            initialValue: state.enteredAnswer,
-            decoration: InputDecoration(
-              hintText: 'Enter the Answer',
-            ),
-            onChanged: (value) => context.read<QaCubit>().answerChanged(value),
-            validator: (value) =>
-                state.isAnswerValid ? null : 'Incorrect answer format',
-          )
-        : SizedBox.shrink();
   }
 
   Widget _body(BuildContext context, QaState state) {
@@ -66,6 +52,33 @@ class QuestionAnswerView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _nameField(BuildContext context, QaState state) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 50.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintText: 'Enter your name',
+        ),
+        onChanged: (value) => context.read<QaCubit>().nameChanged(value),
+        validator: (value) => state.isNameValid ? null : 'Name is too short',
+      ),
+    );
+  }
+
+  Widget _answerField(BuildContext context, QaState state) {
+    return state.isReadyToAnswer
+        ? TextFormField(
+            initialValue: state.enteredAnswer,
+            decoration: InputDecoration(
+              hintText: 'Enter the Answer',
+            ),
+            onChanged: (value) => context.read<QaCubit>().answerChanged(value),
+            validator: (value) =>
+                state.isAnswerValid ? null : 'Incorrect answer format',
+          )
+        : SizedBox.shrink();
   }
 
   Widget _evaluationWidget(BuildContext context, QaState state) {
@@ -104,19 +117,6 @@ class QuestionAnswerView extends StatelessWidget {
   String _getSentAnswerText(QaState state) =>
       '${state.question!.text.replaceFirst('?', '')}'
       '${state.enteredAnswer}';
-
-  Widget _nameField(BuildContext context, QaState state) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50.0),
-      child: TextFormField(
-        decoration: InputDecoration(
-          hintText: 'Enter your name',
-        ),
-        onChanged: (value) => context.read<QaCubit>().nameChanged(value),
-        validator: (value) => state.isNameValid ? null : 'Name is too short',
-      ),
-    );
-  }
 
   Widget _questionWidget(String question) =>
       Text(question, style: TextStyle(fontSize: 20));
