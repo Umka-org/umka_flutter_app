@@ -124,6 +124,9 @@ class QuestionAnswerView extends StatelessWidget {
   Widget _submitButton(BuildContext context, QaState state) {
     return state.showSubmitButton
         ? ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.pink),
+            ),
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 context.read<QaCubit>().answerSubmitted(state.enteredAnswer);
