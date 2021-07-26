@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:umka_flutter/ui/exam/exam_view.dart';
-import 'package:umka_flutter/ui/interview/interview_view.dart';
 import 'package:umka_flutter/ui/question_answer/question_answer_view.dart';
 import 'package:umka_flutter/ui/tutorial/tutorial_view.dart';
 
