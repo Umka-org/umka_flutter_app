@@ -33,5 +33,10 @@ class TutorialCubit extends Cubit<TutorialState> {
     }
   }
 
+  void questionChecked(int index) => emit(state.copyWith(checkedQuestions: [
+        ...state.checkedQuestions,
+        index,
+      ]));
+
   void reset() => emit(state.reset());
 }

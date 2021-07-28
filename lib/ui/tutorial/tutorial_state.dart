@@ -8,6 +8,7 @@ class TutorialState extends Equatable {
   final String enteredName;
   final List<AnsweredQuestion>? questions;
   final List<String> answers;
+  final List<int> checkedQuestions;
   final SubmissionStatus submissionStatus;
 
   bool get isNameValid => enteredName.length > 1;
@@ -18,6 +19,7 @@ class TutorialState extends Equatable {
     this.questions,
     this.enteredName = '',
     this.answers = const [],
+    this.checkedQuestions = const [],
     this.submissionStatus = SubmissionStatus.initial,
   });
 
@@ -30,11 +32,13 @@ class TutorialState extends Equatable {
     String? enteredName,
     List<AnsweredQuestion>? questions,
     List<String>? answers,
+    List<int>? checkedQuestions,
     SubmissionStatus? submissionStatus,
   }) =>
       TutorialState(
         enteredName: enteredName ?? this.enteredName,
         questions: questions ?? this.questions,
+        checkedQuestions: checkedQuestions ?? this.checkedQuestions,
         answers: answers ?? this.answers,
         submissionStatus: submissionStatus ?? this.submissionStatus,
       );
@@ -43,6 +47,7 @@ class TutorialState extends Equatable {
   List<Object?> get props => [
         enteredName,
         questions,
+        checkedQuestions,
         answers,
         submissionStatus,
       ];
