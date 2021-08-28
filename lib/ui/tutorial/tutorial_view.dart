@@ -68,7 +68,9 @@ class TutorialView extends StatelessWidget {
   }
 
   Widget _questionsList(BuildContext context, TutorialState state) =>
-      ListView.builder(
+      ListView.separated(
+          separatorBuilder: (context, _) =>
+              Divider(color: Colors.transparent, height: 20),
           itemCount: state.questions?.length ?? 0,
           itemBuilder: (context, index) => state.questions == null
               ? SizedBox.shrink()

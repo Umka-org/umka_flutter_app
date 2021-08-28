@@ -25,7 +25,9 @@ class _QuestionItemState extends State<QuestionItem> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(widget.question.question.text.replaceFirst('?', '')),
+        ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 150),
+            child: Text(widget.question.question.text.replaceFirst('?', ''))),
         SizedBox(
             width: 50,
             child: TextField(onChanged: (value) {
@@ -33,6 +35,7 @@ class _QuestionItemState extends State<QuestionItem> {
                 enteredAnswer = value;
               });
             })),
+        Spacer(),
         Checkbox(
           value: widget.checked,
           activeColor: enteredAnswer == widget.question.answer
@@ -44,7 +47,6 @@ class _QuestionItemState extends State<QuestionItem> {
             }
           },
         ),
-        widget.checked ? Text(widget.question.answer) : SizedBox.shrink(),
       ],
     );
   }
