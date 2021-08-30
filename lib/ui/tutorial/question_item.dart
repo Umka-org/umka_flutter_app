@@ -5,14 +5,14 @@ import 'package:umka_proto/generated/umka.pb.dart';
 
 class QuestionItem extends StatefulWidget {
   final AnsweredQuestion question;
-  final bool checked;
+  final bool isChecked;
   final int index;
 
   const QuestionItem({
     Key? key,
     required this.index,
     required this.question,
-    required this.checked,
+    required this.isChecked,
   }) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class _QuestionItemState extends State<QuestionItem> {
             })),
         Spacer(),
         Checkbox(
-          value: widget.checked,
+          value: widget.isChecked,
           activeColor: enteredAnswer == widget.question.answer
               ? Colors.green
               : Colors.red,

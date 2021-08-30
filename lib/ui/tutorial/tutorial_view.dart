@@ -76,7 +76,7 @@ class TutorialView extends StatelessWidget {
               ? SizedBox.shrink()
               : QuestionItem(
                   key: ValueKey(state.questions![index]),
-                  checked: state.checkedQuestions.contains(index),
+                  isChecked: state.checkedQuestions.contains(index),
                   index: index,
                   question: state.questions![index]));
 }
