@@ -22,16 +22,9 @@ class ExamView extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 100),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(flex: 3, child: _nameField(context, state)),
-            SizedBox(width: 20),
-            Flexible(flex: 1, child: _startButton(context, state)),
-          ],
-        ),
+        _nameField(context, state),
+        SizedBox(width: 20),
+        _startButton(context, state),
         Expanded(child: _currentExamQuestion(context, state)),
       ],
     );
@@ -48,21 +41,20 @@ class ExamView extends StatelessWidget {
   }
 
   Widget _startButton(BuildContext context, ExamState state) {
-    return SizedBox(
-      width: 100,
-      child: state.showStartButton
-          ? ElevatedButton(
-              onPressed: () {
-                context.read<ExamCubit>().takeTutorial();
-              },
-              child: Text(
-                'Start',
-                style: TextStyle(fontSize: 20),
-              ),
-            )
-          : SizedBox.shrink(),
-    );
+    return state.showGetQuestionButton
+        ? ElevatedButton(
+            onPressed: () {
+//                 context.read<ExamCubit>().takeTutorial();
+            },
+            child: Text(
+              'Start Exam',
+              style: TextStyle(fontSize: 20),
+            ),
+          )
+        : SizedBox.shrink();
   }
 
-  Widget _currentExamQuestion(BuildContext context, ExamState state) {}
+  Widget _currentExamQuestion(BuildContext context, ExamState state) {
+    return Text('hello');
+  }
 }
