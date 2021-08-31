@@ -8,4 +8,8 @@ class ExamCubit extends Cubit<ExamState> {
   ExamCubit(this.umkaService) : super(ExamState());
 
   void nameChanged(String name) => emit(state.copyWith(enteredName: name));
+
+  void takeExam(String name) {
+// 		final exam =
+  }
 }

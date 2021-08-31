@@ -25,4 +25,13 @@ class UmkaService {
 
   Stream<AnsweredQuestion> getTutorial(Student student) =>
       stub.getTutorial(student);
+
+  Future<Exam> getExam(Student student) async => await stub.getExam(student);
+
+  Future<Evaluation> takeExam(
+      String studentName, Stream<Answer> answersStream) async {
+    final evaluationFuture = stub.takeExam(answersStream,
+        options: CallOptions(metadata: {'student_name': studentName}));
+    return evaluationFuture;
+  }
 }
