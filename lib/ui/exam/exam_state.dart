@@ -6,20 +6,29 @@ import 'package:umka_proto/generated/umka.pb.dart';
 @immutable
 class ExamState extends Equatable {
   final String enteredName;
-  final List<Question>? questions;
-  final Question? currentExamQuestion;
+  final Exam? exam;
+  final int questionIndex;
   final String enteredAnswer;
   final SubmissionStatus submissionStatus;
   final Evaluation? evaluation;
 
   bool get isNameValid => enteredName.length > 1;
+
   bool get isAnswerValid => enteredAnswer.isNotEmpty;
+
   bool get showGetQuestionButton =>
       isNameValid && submissionStatus != SubmissionStatus.submitting;
 
+  Question? get currentQuestion {
+    if (null == exam || exam!.questions.length < questionIndex + 1) {
+      return null;
+    }
+    return exam!.questions[questionIndex];
+  }
+
   ExamState({
-    this.questions,
-    this.currentExamQuestion,
+    this.exam,
+    this.questionIndex = 0,
     this.enteredName = '',
     this.enteredAnswer = '',
     this.submissionStatus = SubmissionStatus.initial,
@@ -30,16 +39,16 @@ class ExamState extends Equatable {
 
   ExamState copyWith({
     String? enteredName,
-    List<Question>? questions,
-    Question? currentExamQuestion,
+    Exam? exam,
+    int? questionIndex,
     String? enteredAnswer,
     SubmissionStatus? submissionStatus,
     Evaluation? evaluation,
   }) =>
       ExamState(
         enteredName: enteredName ?? this.enteredName,
-        questions: questions ?? this.questions,
-        currentExamQuestion: currentExamQuestion ?? this.currentExamQuestion,
+        exam: exam ?? this.exam,
+        questionIndex: questionIndex ?? this.questionIndex,
         enteredAnswer: enteredAnswer ?? this.enteredAnswer,
         submissionStatus: submissionStatus ?? this.submissionStatus,
         evaluation: evaluation ?? this.evaluation,
@@ -48,7 +57,7 @@ class ExamState extends Equatable {
   @override
   List<Object?> get props => [
         enteredName,
-        questions,
+        exam,
         enteredAnswer,
         submissionStatus,
         evaluation,
@@ -56,7 +65,7 @@ class ExamState extends Equatable {
 
   @override
   String toString() {
-    return 'ExamState{enteredName: $enteredName,\n questions: $questions, \n'
+    return 'ExamState{enteredName: $enteredName,\n exam: $exam, \n'
         'enteredAnswer: $enteredAnswer,\n submissionStatus: $submissionStatus, '
         '\nevaluation: $evaluation}\n\n';
   }

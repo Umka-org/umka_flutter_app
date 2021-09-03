@@ -44,7 +44,7 @@ class ExamView extends StatelessWidget {
     return state.showGetQuestionButton
         ? ElevatedButton(
             onPressed: () {
-//                 context.read<ExamCubit>().takeTutorial();
+              context.read<ExamCubit>().takeExam(state.enteredName);
             },
             child: Text(
               'Start Exam',
@@ -55,6 +55,8 @@ class ExamView extends StatelessWidget {
   }
 
   Widget _currentExamQuestion(BuildContext context, ExamState state) {
-    return Text('hello');
+    return state.currentQuestion == null
+        ? Text('no question')
+        : Text(state.currentQuestion!.text);
   }
 }
