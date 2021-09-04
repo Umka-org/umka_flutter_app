@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
 import 'package:umka_flutter/ui/exam/exam_cubit.dart';
 import 'package:umka_flutter/ui/exam/exam_state.dart';
+import 'package:umka_flutter/ui/exam/widgets/StartButton.dart';
 
 class ExamView extends StatelessWidget {
   @override
@@ -10,53 +11,61 @@ class ExamView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExamCubit(context.read<UmkaService>()),
       child: BlocBuilder<ExamCubit, ExamState>(
-          builder: (context, state) => Scaffold(
-                  body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _body(context, state),
-              ))),
-    );
-  }
-
-  Widget _body(BuildContext context, ExamState state) {
-    return Column(
-      children: [
-        SizedBox(height: 100),
-        _nameField(context, state),
-        SizedBox(width: 20),
-        _startButton(context, state),
-        Expanded(child: _currentExamQuestion(context, state)),
-      ],
-    );
-  }
-
-  Widget _nameField(BuildContext context, ExamState state) {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: 'Enter your name',
-      ),
-      onChanged: (value) => context.read<ExamCubit>().nameChanged(value),
-      validator: (value) => state.isNameValid ? null : 'Name is too short',
-    );
-  }
-
-  Widget _startButton(BuildContext context, ExamState state) {
-    return state.showGetQuestionButton
-        ? ElevatedButton(
-            onPressed: () {
-              context.read<ExamCubit>().takeExam(state.enteredName);
-            },
-            child: Text(
-              'Start Exam',
-              style: TextStyle(fontSize: 20),
+        builder: (context, state) => Scaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 100,
+              ),
+              child: Column(
+                children: [
+                  _NameWidget(),
+                  StartButton(
+                    text: 'Start Exam',
+                    onPress: () {
+                      context.read<ExamCubit>().takeExam(state.enteredName);
+                    },
+                  ),
+                  _ExamQuestion(),
+                ],
+              ),
             ),
-          )
-        : SizedBox.shrink();
+          ),
+        ),
+      ),
+    );
   }
+}
 
-  Widget _currentExamQuestion(BuildContext context, ExamState state) {
-    return state.currentQuestion == null
-        ? Text('no question')
-        : Text(state.currentQuestion!.text);
+class _NameWidget extends StatelessWidget {
+  const _NameWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ExamCubit, ExamState>(
+      builder: (context, state) => TextFormField(
+        decoration: InputDecoration(
+          hintText: 'Enter your name',
+        ),
+        onChanged: (value) => context.read<ExamCubit>().nameChanged(value),
+        validator: (value) => state.isNameValid ? null : 'Name is too short',
+      ),
+    );
+  }
+}
+
+class _ExamQuestion extends StatelessWidget {
+  const _ExamQuestion({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ExamCubit, ExamState>(
+      builder: (context, state) => state.currentQuestion == null
+          ? SizedBox.shrink()
+          : Container(
+              child: Text(state.currentQuestion!.text),
+            ),
+    );
   }
 }
