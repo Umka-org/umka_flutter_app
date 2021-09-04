@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
 import 'package:umka_flutter/ui/exam/exam_cubit.dart';
 import 'package:umka_flutter/ui/exam/exam_state.dart';
-import 'package:umka_flutter/ui/exam/widgets/StartButton.dart';
+import 'package:umka_flutter/ui/exam/widgets/exam_question.dart';
+import 'package:umka_flutter/ui/kit/app_button.dart';
 
 class ExamView extends StatelessWidget {
   @override
@@ -20,14 +21,20 @@ class ExamView extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _NameWidget(),
-                  StartButton(
+                  NameWidget(
+                    onChanged: (value) =>
+                        context.read<ExamCubit>().nameChanged(value),
+                    validator: (_) =>
+                        state.isNameValid ? null : 'Name is too short',
+                  ),
+                  AppButton(
                     text: 'Start Exam',
+                    show: state.showStartButton,
                     onPress: () {
                       context.read<ExamCubit>().takeExam(state.enteredName);
                     },
                   ),
-                  _ExamQuestion(),
+                  ExamQuestion(),
                 ],
               ),
             ),
@@ -38,34 +45,24 @@ class ExamView extends StatelessWidget {
   }
 }
 
-class _NameWidget extends StatelessWidget {
-  const _NameWidget({Key? key}) : super(key: key);
+class NameWidget extends StatelessWidget {
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
+
+  const NameWidget({
+    Key? key,
+    this.onChanged,
+    this.validator,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExamCubit, ExamState>(
-      builder: (context, state) => TextFormField(
-        decoration: InputDecoration(
-          hintText: 'Enter your name',
-        ),
-        onChanged: (value) => context.read<ExamCubit>().nameChanged(value),
-        validator: (value) => state.isNameValid ? null : 'Name is too short',
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: 'Enter your name',
       ),
-    );
-  }
-}
-
-class _ExamQuestion extends StatelessWidget {
-  const _ExamQuestion({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ExamCubit, ExamState>(
-      builder: (context, state) => state.currentQuestion == null
-          ? SizedBox.shrink()
-          : Container(
-              child: Text(state.currentQuestion!.text),
-            ),
+      onChanged: onChanged,
+      validator: validator,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
 import 'package:umka_flutter/ui/core/submission_status.dart';
+import 'package:umka_flutter/ui/kit/app_button.dart';
 import 'package:umka_flutter/ui/question_answer/qa_cubit.dart';
 import 'package:umka_flutter/ui/question_answer/qa_state.dart';
 
@@ -101,17 +102,13 @@ class QuestionAnswerView extends StatelessWidget {
   }
 
   Widget _getRandomQuestionButton(BuildContext context, QaState state) {
-    return state.showGetQuestionButton
-        ? ElevatedButton(
-            onPressed: () {
-              context.read<QaCubit>().getRandomQuestion();
-            },
-            child: Text(
-              'Get Random Question',
-              style: TextStyle(fontSize: 20),
-            ),
-          )
-        : SizedBox.shrink();
+    return AppButton(
+      text: 'Get Random Question',
+      show: state.showGetQuestionButton,
+      onPress: () {
+        context.read<QaCubit>().getRandomQuestion();
+      },
+    );
   }
 
   String _getSentAnswerText(QaState state) =>
@@ -145,6 +142,7 @@ class _EqualHeightWidget extends StatelessWidget {
   const _EqualHeightWidget(
       {Key? key, required this.height, required this.child})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(child: Center(child: child), height: height);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
+import 'package:umka_flutter/ui/kit/app_button.dart';
 import 'package:umka_flutter/ui/tutorial/question_item.dart';
 import 'package:umka_flutter/ui/tutorial/tutorial_cubit.dart';
 import 'package:umka_flutter/ui/tutorial/tutorial_state.dart';
@@ -54,15 +55,11 @@ class TutorialView extends StatelessWidget {
     return SizedBox(
       width: 100,
       child: state.showStartButton
-          ? ElevatedButton(
-              onPressed: () {
+          ? AppButton(
+              text: 'Start',
+              onPress: () {
                 context.read<TutorialCubit>().takeTutorial();
-              },
-              child: Text(
-                'Start',
-                style: TextStyle(fontSize: 20),
-              ),
-            )
+              })
           : SizedBox.shrink(),
     );
   }
