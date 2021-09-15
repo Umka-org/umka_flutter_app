@@ -10,6 +10,9 @@ class ExamCubit extends Cubit<ExamState> {
 
   void nameChanged(String name) => emit(state.copyWith(enteredName: name));
 
+  void answerChanged(String answer) =>
+      emit(state.copyWith(enteredAnswer: answer));
+
   void takeExam(String name) async {
     final student = Student()
       ..name = name

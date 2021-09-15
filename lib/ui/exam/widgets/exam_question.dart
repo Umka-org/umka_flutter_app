@@ -12,7 +12,16 @@ class ExamQuestion extends StatelessWidget {
       builder: (context, state) => state.currentQuestion == null
           ? SizedBox.shrink()
           : Container(
-              child: Text(state.currentQuestion!.text),
+              child: Column(
+                children: [
+                  Text(state.currentQuestion!.text),
+                  TextFormField(
+                    initialValue: state.enteredAnswer,
+                    onChanged: (text) =>
+                        context.read<ExamCubit>().answerChanged(text),
+                  ),
+                ],
+              ),
             ),
     );
   }
