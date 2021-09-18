@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
+import 'package:umka_flutter/ui/core/widgets/enter_name_widget.dart';
 import 'package:umka_flutter/ui/exam/exam_cubit.dart';
 import 'package:umka_flutter/ui/exam/exam_state.dart';
 import 'package:umka_flutter/ui/exam/widgets/exam_question.dart';
@@ -21,7 +22,7 @@ class ExamView extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  NameWidget(
+                  EnterNameWidget(
                     onChanged: (value) =>
                         context.read<ExamCubit>().nameChanged(value),
                     validator: (_) =>
@@ -35,6 +36,7 @@ class ExamView extends StatelessWidget {
                     },
                   ),
                   ExamQuestion(),
+                  ExamResultWidget(),
                 ],
               ),
             ),
@@ -45,24 +47,14 @@ class ExamView extends StatelessWidget {
   }
 }
 
-class NameWidget extends StatelessWidget {
-  final Function(String)? onChanged;
-  final String? Function(String?)? validator;
-
-  const NameWidget({
-    Key? key,
-    this.onChanged,
-    this.validator,
-  }) : super(key: key);
+class ExamResultWidget extends StatelessWidget {
+  const ExamResultWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: 'Enter your name',
-      ),
-      onChanged: onChanged,
-      validator: validator,
-    );
+    return BlocBuilder<ExamCubit, ExamState>(
+        builder: (context, state) => state.isEvaluated
+            ? Text('Your Exam Score is ${state.evaluation?.mark}')
+            : SizedBox.shrink());
   }
 }

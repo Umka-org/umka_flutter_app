@@ -20,9 +20,28 @@ class ExamQuestion extends StatelessWidget {
                     onChanged: (text) =>
                         context.read<ExamCubit>().answerChanged(text),
                   ),
+                  _submitButton(context, state),
                 ],
               ),
             ),
     );
   }
+
+  Widget _submitButton(BuildContext context, ExamState state) {
+    return state.showSubmitButton
+        ? ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.pink),
+            ),
+            onPressed: () {
+              context.read<ExamCubit>().sendAnswer(state.enteredAnswer);
+            },
+            child: Text('Send: ${_getSentAnswerText(state)}'),
+          )
+        : SizedBox.shrink();
+  }
+
+  String _getSentAnswerText(ExamState state) =>
+      '${state.currentQuestion!.text.replaceFirst('?', '')}'
+      '${state.enteredAnswer}';
 }

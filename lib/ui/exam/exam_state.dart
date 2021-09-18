@@ -12,20 +12,6 @@ class ExamState extends Equatable {
   final SubmissionStatus submissionStatus;
   final Evaluation? evaluation;
 
-  bool get isNameValid => enteredName.length > 1;
-
-  bool get isAnswerValid => enteredAnswer.isNotEmpty;
-
-  bool get showStartButton =>
-      isNameValid && submissionStatus != SubmissionStatus.submitting;
-
-  Question? get currentQuestion {
-    if (null == exam || exam!.questions.length < questionIndex + 1) {
-      return null;
-    }
-    return exam!.questions[questionIndex];
-  }
-
   ExamState({
     this.exam,
     this.questionIndex = 0,
@@ -34,6 +20,29 @@ class ExamState extends Equatable {
     this.submissionStatus = SubmissionStatus.initial,
     this.evaluation,
   });
+
+  bool get isNameValid => enteredName.length > 1;
+
+  bool get isAnswerValid => enteredAnswer.isNotEmpty;
+
+  bool get showStartButton => isNameValid && !submissionStatus.isSubmitting;
+
+  bool get isEvaluated => evaluation != null;
+
+  Question? get currentQuestion {
+    if (null == exam || exam!.questions.length < questionIndex + 1) {
+      return null;
+    }
+    return exam!.questions[questionIndex];
+  }
+
+  bool get showSubmitButton =>
+      !submissionStatus.isSubmitting &&
+      enteredAnswer.isNotEmpty &&
+      isAnswerValid &&
+      currentQuestion != null;
+
+  Student get student => Student(id: 42, name: enteredName);
 
   ExamState reset() => ExamState();
 
