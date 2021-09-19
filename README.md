@@ -2,6 +2,6 @@
 
 ### Demo app for Habr articles
 
-### gRPC + Dart, Сервис + Клиент, напишем
+### "gRPC + Dart, Сервис + Клиент, напишем"
 
-[read](https://habr.com/ru/post/563518/)
+[Почитать](https://habr.com/ru/post/563518/)
