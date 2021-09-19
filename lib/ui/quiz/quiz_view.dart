@@ -3,17 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:umka_flutter/services/umka_service.dart';
 import 'package:umka_flutter/ui/core/submission_status.dart';
 import 'package:umka_flutter/ui/kit/app_button.dart';
-import 'package:umka_flutter/ui/question_answer/qa_cubit.dart';
-import 'package:umka_flutter/ui/question_answer/qa_state.dart';
+import 'package:umka_flutter/ui/quiz/quiz_cubit.dart';
+import 'package:umka_flutter/ui/quiz/quiz_state.dart';
 
-class QuestionAnswerView extends StatelessWidget {
+class QuizView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => QaCubit(context.read<UmkaService>()),
-      child: BlocBuilder<QaCubit, QaState>(
+      create: (context) => QuizCubit(context.read<UmkaService>()),
+      child: BlocBuilder<QuizCubit, QuizState>(
         builder: (context, state) => Scaffold(
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -24,7 +24,7 @@ class QuestionAnswerView extends StatelessWidget {
     );
   }
 
-  Widget _body(BuildContext context, QaState state) {
+  Widget _body(BuildContext context, QuizState state) {
     final boxHeight =
         (MediaQuery.of(context).size.height - kToolbarHeight * 2) / 6;
     return Form(
@@ -55,34 +55,35 @@ class QuestionAnswerView extends StatelessWidget {
     );
   }
 
-  Widget _nameField(BuildContext context, QaState state) {
+  Widget _nameField(BuildContext context, QuizState state) {
     return Padding(
       padding: const EdgeInsets.only(top: 50.0),
       child: TextFormField(
         decoration: InputDecoration(
           hintText: 'Enter your name',
         ),
-        onChanged: (value) => context.read<QaCubit>().nameChanged(value),
+        onChanged: (value) => context.read<QuizCubit>().nameChanged(value),
         validator: (value) => state.isNameValid ? null : 'Name is too short',
       ),
     );
   }
 
-  Widget _answerField(BuildContext context, QaState state) {
+  Widget _answerField(BuildContext context, QuizState state) {
     return state.isReadyToAnswer
         ? TextFormField(
             initialValue: state.enteredAnswer,
             decoration: InputDecoration(
               hintText: 'Enter the Answer',
             ),
-            onChanged: (value) => context.read<QaCubit>().answerChanged(value),
+            onChanged: (value) =>
+                context.read<QuizCubit>().answerChanged(value),
             validator: (value) =>
                 state.isAnswerValid ? null : 'Incorrect answer format',
           )
         : SizedBox.shrink();
   }
 
-  Widget _evaluationWidget(BuildContext context, QaState state) {
+  Widget _evaluationWidget(BuildContext context, QuizState state) {
     if (state.evaluation == null) {
       return SizedBox.shrink();
     }
@@ -101,24 +102,24 @@ class QuestionAnswerView extends StatelessWidget {
     );
   }
 
-  Widget _getRandomQuestionButton(BuildContext context, QaState state) {
+  Widget _getRandomQuestionButton(BuildContext context, QuizState state) {
     return AppButton(
       text: 'Get Random Question',
       show: state.showGetQuestionButton,
       onPress: () {
-        context.read<QaCubit>().getRandomQuestion();
+        context.read<QuizCubit>().getRandomQuestion();
       },
     );
   }
 
-  String _getSentAnswerText(QaState state) =>
+  String _getSentAnswerText(QuizState state) =>
       '${state.question!.text.replaceFirst('?', '')}'
       '${state.enteredAnswer}';
 
   Widget _questionWidget(String question) =>
       Text(question, style: TextStyle(fontSize: 20));
 
-  Widget _submitButton(BuildContext context, QaState state) {
+  Widget _submitButton(BuildContext context, QuizState state) {
     return state.showSubmitButton
         ? ElevatedButton(
             style: ButtonStyle(
@@ -126,7 +127,7 @@ class QuestionAnswerView extends StatelessWidget {
             ),
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-                context.read<QaCubit>().answerSubmitted(state.enteredAnswer);
+                context.read<QuizCubit>().answerSubmitted(state.enteredAnswer);
               }
             },
             child: Text('Send: ${_getSentAnswerText(state)}'),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:umka_flutter/ui/exam/exam_view.dart';
-import 'package:umka_flutter/ui/question_answer/question_answer_view.dart';
+import 'package:umka_flutter/ui/quiz/quiz_view.dart';
 import 'package:umka_flutter/ui/tutorial/tutorial_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.question_answer),
-            label: 'Questions',
+            label: 'Quiz',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.cast_for_education),
@@ -52,6 +52,6 @@ Widget _getCurrentView(int index) {
     case 2:
       return ExamView();
     default:
-      return QuestionAnswerView();
+      return QuizView();
   }
 }

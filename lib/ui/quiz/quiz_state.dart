@@ -4,7 +4,7 @@ import 'package:umka_flutter/ui/core/submission_status.dart';
 import 'package:umka_proto/generated/umka.pb.dart';
 
 @immutable
-class QaState extends Equatable {
+class QuizState extends Equatable {
   final String enteredName;
   final Question? question;
   final String enteredAnswer;
@@ -20,7 +20,7 @@ class QaState extends Equatable {
       isReadyToAnswer && isAnswerValid && evaluation == null;
   bool get isAnswerCorrect => (evaluation?.mark == 5);
 
-  QaState({
+  QuizState({
     this.question,
     this.enteredName = '',
     this.enteredAnswer = '',
@@ -28,19 +28,19 @@ class QaState extends Equatable {
     this.evaluation,
   });
 
-  QaState reset() => QaState(
+  QuizState reset() => QuizState(
         submissionStatus: SubmissionStatus.submitting,
         enteredName: this.enteredName,
       );
 
-  QaState copyWith({
+  QuizState copyWith({
     String? enteredName,
     Question? question,
     String? enteredAnswer,
     SubmissionStatus? submissionStatus,
     Evaluation? evaluation,
   }) =>
-      QaState(
+      QuizState(
         enteredName: enteredName ?? this.enteredName,
         question: question ?? this.question,
         enteredAnswer: enteredAnswer ?? this.enteredAnswer,

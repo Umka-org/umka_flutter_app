@@ -25,7 +25,8 @@ class ExamState extends Equatable {
 
   bool get isAnswerValid => enteredAnswer.isNotEmpty;
 
-  bool get showStartButton => isNameValid && !submissionStatus.isSubmitting;
+  bool get showStartButton =>
+      isNameValid && !submissionStatus.isSubmitting && exam == null;
 
   bool get isEvaluated => evaluation != null;
 

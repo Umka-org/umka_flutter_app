@@ -47,4 +47,8 @@ class ExamCubit extends Cubit<ExamState> {
       await answersStream?.close();
     }
   }
+
+  void newExam() {
+    emit(state.reset());
+  }
 }
