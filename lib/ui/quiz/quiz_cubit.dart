@@ -16,7 +16,6 @@ class QuizCubit extends Cubit<QuizState> {
 
   void getRandomQuestion() async {
     reset();
-    await Future.delayed(Duration(milliseconds: 300));
     final student = Student()
       ..id = state.enteredName.hashCode
       ..name = state.enteredName;

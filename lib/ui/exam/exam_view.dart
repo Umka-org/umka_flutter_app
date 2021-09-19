@@ -24,8 +24,9 @@ class ExamView extends StatelessWidget {
               child: Column(
                 children: [
                   EnterNameWidget(),
+                  SizedBox(height: 20),
                   AppButton(
-                    text: 'Start New Exam',
+                    text: '${state.enteredName} is ready for Exam',
                     show: state.showStartButton,
                     onPress: () {
                       context.read<ExamCubit>().takeExam(state.enteredName);

@@ -13,16 +13,22 @@ class ExamResultWidget extends StatelessWidget {
         builder: (context, state) => state.isEvaluated
             ? Column(
                 children: [
+                  SizedBox(height: 20),
                   Text(
-                    '${state.student.name}!\nYour Exam Score is '
+                    '${state.student.name}!\n\nYour Exam Score is '
                     '${state.evaluation?.mark}%',
+                    style: Theme.of(context).textTheme.headline5,
                   ),
+                  SizedBox(height: 20),
                   TextButton(
-                      onPressed: () {
-                        context.read<ExamCubit>().newExam();
-                      },
-                      child: Text(
-                          'OK ${getEmojiByScore(state.evaluation?.mark ?? 0)}')),
+                    onPressed: () {
+                      context.read<ExamCubit>().newExam();
+                    },
+                    child: Text(
+                      'OK ${getEmojiByScore(state.evaluation?.mark ?? 0)}',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
                 ],
               )
             : SizedBox.shrink());
