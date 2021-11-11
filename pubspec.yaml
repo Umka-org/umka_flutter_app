@@ -11,9 +11,9 @@ environment:
 dependencies:
   flutter_bloc:
   equatable:
+  build_grpc_channel:
   umka_proto:
     git: git@github.com:Umka-org/umka_proto.git
-
   flutter:
     sdk: flutter
 
